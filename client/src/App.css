@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type='text'],input[type='password'],input[type='email'],input[type='number'],input[type='tel'],textarea{
+    @apply w-full  border my-1 p-2 rounded-2xl;
+}
+
+
+
+button.primary {
+    background-color: #E63353;
+    @apply bg-primary rounded-full p-2 w-full mt-3 text-white text-lg;
+}
+button.secondary{
+    background-color: #E63353;
+    @apply bg-primary rounded-full p-2 w-full mt-12 mb-6 text-white text-lg;
+}
+
+link.primary {
+    background-color: #E63353;
+}
+
+.primary {
+    background-color: #E63353;
+}
