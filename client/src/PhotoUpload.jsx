@@ -6,7 +6,7 @@ export default function PhotoUpload({ addedPhotos, setAddedPhotos }) {
 	const [photoLink, setPhotoLink] = useState('');
 
 	const handleUpload = async (e) => {
-		console.log('lol');
+		console.log('ll');
 		const images = new FormData();
 		let photos = e.target.files;
 		console.log('z', photos);
