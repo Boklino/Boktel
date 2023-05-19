@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Image from './Image';
 import { useState } from 'react';
 
 export default function PhotoUpload({ addedPhotos, setAddedPhotos }) {
@@ -60,9 +61,9 @@ export default function PhotoUpload({ addedPhotos, setAddedPhotos }) {
 					addedPhotos.map((img) => {
 						return (
 							<div key={img} className='flex h-36 relative'>
-								<img
+								<Image
 									className='rounded-xl object-cover w-full'
-									src={'http://localhost:4000/uploads/' + img}
+									src={img}
 									alt='img of the place'
 								/>
 								<button

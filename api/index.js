@@ -7,10 +7,15 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const imgDownload = require('image-downloader');
 const User = require('./models/User.js');
+const fs = require('fs');
 const Place = require('./models/Place.js');
+
 const Booking = require('./models/Booking.js');
 const rename = require('fs');
-const multer = require('multer');
+
+const upload = require('./multer.js');
+const cloudinary = require('./cloudinary.js');
+
 const { resolve } = require('path');
 require('dotenv').config();
 const corsOptions = {
@@ -27,11 +32,12 @@ const jwtSecret = 'asjgsohdjhoidhdfhdafhshss';
 
 app.use(express.json());
 
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
 	res.json('zby');
 });
 
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { name, email, password } = req.body;
 	try {
 		const user = await User.create({
@@ -46,7 +52,7 @@ app.post('/register', async (req, res) => {
 	}
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
 	mongoose.connect(process.env.MONGO_URL);
 	const { email, password, name } = req.body;
 	const userDoc = await User.findOne({ email });
@@ -73,7 +79,8 @@ app.post('/login', async (req, res) => {
 	}
 });
 
-app.post('/places', (req, res) => {
+app.post('/api/places', (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { token } = req.cookies;
 	const {
 		title,
@@ -108,7 +115,8 @@ app.post('/places', (req, res) => {
 	}
 });
 
-app.get('/profile', (req, res) => {
+app.get('/api/profile', (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { token } = req.cookies;
 	if (token) {
 		jwt.verify(token, jwtSecret, {}, async (err, user) => {
@@ -119,7 +127,8 @@ app.get('/profile', (req, res) => {
 	}
 });
 
-app.get('/user-places', (req, res) => {
+app.get('/api/user-places', (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { token } = req.cookies;
 	if (token) {
 		jwt.verify(token, jwtSecret, {}, async (err, user) => {
@@ -130,7 +139,8 @@ app.get('/user-places', (req, res) => {
 	}
 });
 
-app.put('/places', async (req, res) => {
+app.put('/api/places', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { token } = req.cookies;
 	const {
 		id,
@@ -169,52 +179,59 @@ app.put('/places', async (req, res) => {
 	}
 });
 
-app.get('/places/:id', async (req, res) => {
+app.get('/api/places/:id', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const { id } = req.params;
 	res.json(await Place.findById(id).populate('owner'));
 });
 
-app.get('/places', async (req, res) => {
+app.get('/api/places', async (req, res) => {
 	res.json(await Place.find());
 });
 
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
 	res.cookie('token', '').json(true);
 });
 
-app.post('/upload-link', async (req, res) => {
-	const { link } = req.body;
-	const newName = 'img' + Date.now() + '.jpg';
-	options = {
-		url: link,
-		dest: __dirname + '/uploads/' + newName,
-	};
+app.post('/api/upload-link', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
+
 	try {
-		const fileName = await imgDownload.image(options);
-		console.log(fileName);
-		res.json(newName);
+		const url = async (link) => await cloudinary.uploads(link, 'boktel');
+		console.log({ url });
+		const { link } = req.body;
+		const newPath = await url(link);
+
+		console.log({ newPath });
+		res.json(newPath.url);
 	} catch (e) {
+		console.log(e);
 		res.json(e);
 	}
 });
 
-const upload = multer({ dest: 'uploads/' });
-
-app.post('/upload', upload.array('photos', 50), (req, res) => {
-	const imgArray = [];
-	req.files.forEach((img) => {
-		const { path, filename, originalname } = img;
-		const parts = originalname.split('.');
-		const ext = parts[parts.length - 1];
-		const newPath = filename + '.' + ext;
-		rename.renameSync(path, 'uploads/' + newPath);
-		imgArray.push(newPath);
-	});
-
-	res.json(imgArray);
+app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
+	const uploader = async (path) => await cloudinary.uploads(path, 'boktel');
+	try {
+		const urls = [];
+		const files = req.files;
+		console.log({ files });
+		for (const file of files) {
+			const { path } = file;
+			const newPath = await uploader(path);
+			console.log({ newPath });
+			urls.push(newPath.url);
+			fs.unlinkSync(path);
+		}
+		res.json(urls);
+	} catch (e) {
+		console.log(e);
+	}
 });
 
 const getUserId = (req) => {
+	mongoose.connect(process.env.MONGO_URL);
 	return new Promise((resolve, reject) => {
 		jwt.verify(req.cookies.token, jwtSecret, {}, async (err, user) => {
 			if (err) throw err;
@@ -223,7 +240,8 @@ const getUserId = (req) => {
 	});
 };
 
-app.post('/bookings', async (req, res) => {
+app.post('/api/bookings', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const user = await getUserId(req);
 
 	const { place, checkIn, checkOut, maxGuests, name, number, price } =
@@ -246,7 +264,8 @@ app.post('/bookings', async (req, res) => {
 	}
 });
 
-app.get('/bookings', async (req, res) => {
+app.get('/api/bookings', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	const user = await getUserId(req);
 	console.log(user.id);
 	try {

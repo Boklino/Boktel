@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
+import Image from './Image';
 
 export default function PlacePhoto({ place }) {
 	const [swipe, setSwipe] = useState(0);
@@ -25,12 +26,9 @@ export default function PlacePhoto({ place }) {
 				<div className='relative  bg-gray-500 rounded-2xl group'>
 					{console.log(swipe < place.photos.length)}
 					{place.photos[swipe] && (
-						<img
+						<Image
 							className='mb-4 rounded-2xl overflow-hidden  aspect-square'
-							src={
-								'http://localhost:4000/uploads/' +
-								place.photos[swipe]
-							}
+							src={place.photos[swipe]}
 							alt='image of the place'
 						/>
 					)}
@@ -74,9 +72,12 @@ export default function PlacePhoto({ place }) {
 				<h2 className='mt-2 font-bold'>{place.address}</h2>
 
 				<h3 className=' text-sm text-gray-600'>{place.title}</h3>
-				<p>
-					<span className='font-bold'>${place.price}</span> per night
-				</p>
+				{place.price && (
+					<p>
+						<span className='font-bold'>${place.price}</span> per
+						night
+					</p>
+				)}
 			</Link>
 		</div>
 	);

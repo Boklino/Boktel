@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from '../Image';
 
 export default function PlaceGallery({ place }) {
 	const [showAll, setShowAll] = useState(false);
@@ -10,34 +11,25 @@ export default function PlaceGallery({ place }) {
 			>
 				<div>
 					{place.photos?.[0] && (
-						<img
+						<Image
 							className='cursor-pointer aspect-square lg:aspect-auto lg:min-h-full object-cover'
-							src={
-								'http://localhost:4000/uploads/' +
-								place.photos[0]
-							}
-						></img>
+							src={place.photos[0]}
+						/>
 					)}
 				</div>
 				<div className='grid gap-2 '>
 					{place.photos?.[1] && (
-						<img
+						<Image
 							className=' cursor-pointer aspect-square lg:aspect-auto lg:min-h-full object-cover'
-							src={
-								'http://localhost:4000/uploads/' +
-								place.photos[1]
-							}
-						></img>
+							src={place.photos[1]}
+						/>
 					)}
 					<div className='overflow-hidden relative '>
 						{place.photos?.[2] && (
-							<img
+							<Image
 								className='cursor-pointer aspect-square lg:aspect-auto lg:min-h-full object-cover'
-								src={
-									'http://localhost:4000/uploads/' +
-									place.photos[2]
-								}
-							></img>
+								src={place.photos[2]}
+							/>
 						)}
 						<div>
 							<button

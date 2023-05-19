@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PlacePhoto from '../PlacePhoto';
+import Image from '../Image';
 
 export default function IndexPage() {
 	const [places, setPlaces] = useState([]);

@@ -3,6 +3,7 @@ import AccountNav from '../AccountNav';
 import axios from 'axios';
 import { differenceInCalendarDays, format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import Image from '../Image';
 
 export default function BookingsPage() {
 	const [bookings, setBookings] = useState([]);
@@ -25,12 +26,9 @@ export default function BookingsPage() {
 						<div className=' bg-gray-300 rounded-2xl flex gap-4 overflow-hidden '>
 							<div className=' '>
 								{booking.place.photos.length > 0 && (
-									<img
+									<Image
 										className='object-cover w-48 h-40'
-										src={
-											'http://localhost:4000/uploads/' +
-											booking.place.photos[0]
-										}
+										src={booking.place.photos[0]}
 										alt='photo of the place'
 									/>
 								)}

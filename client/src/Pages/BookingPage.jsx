@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import PlaceGallery from './PlaceGallery';
 import { differenceInCalendarDays, format } from 'date-fns';
+import Image from '../Image';
 
 export default function BookingPage() {
 	const { id } = useParams();
@@ -140,13 +141,10 @@ export default function BookingPage() {
 							>
 								<div>
 									{booking.place.photos?.[0] && (
-										<img
+										<Image
 											className='cursor-pointer aspect-square lg:aspect-auto lg:min-h-full object-cover'
-											src={
-												'http://localhost:4000/uploads/' +
-												booking.place.photos[0]
-											}
-										></img>
+											src={booking.place.photos[0]}
+										/>
 									)}
 								</div>
 								<div className='grid gap-2 '>
@@ -231,12 +229,7 @@ export default function BookingPage() {
 						</div>
 						{booking.place?.photos?.length > 0 &&
 							booking.place.photos.map((photo) => (
-								<img
-									className='min-w-full'
-									src={
-										'http://localhost:4000/uploads/' + photo
-									}
-								></img>
+								<Image className='min-w-full' src={photo} />
 							))}
 					</div>
 				</div>
