@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HiOutlineDotsHorizontal } from 'react-icons/Hi';
+
 import Image from './Image';
 
 export default function PlacePhoto({ place }) {
@@ -66,8 +66,6 @@ export default function PlacePhoto({ place }) {
 							</svg>
 						</div>
 					)}
-
-					<HiOutlineDotsHorizontal className=' absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl' />
 				</div>
 				<h2 className='mt-2 font-bold'>{place.address}</h2>
 
