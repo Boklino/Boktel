@@ -15,11 +15,7 @@ export default function PhotoUpload({ addedPhotos, setAddedPhotos }) {
 			images.append('photos', photo);
 		});
 
-		const { data } = await axios.post('/upload', images, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
-		});
+		const { data } = await axios.post('/upload', images, {});
 		console.log({ data });
 		setAddedPhotos([...addedPhotos, ...data]);
 	};
