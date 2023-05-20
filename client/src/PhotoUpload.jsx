@@ -20,7 +20,7 @@ export default function PhotoUpload({ addedPhotos, setAddedPhotos }) {
 				'Content-Type': 'multipart/form-data',
 			},
 		});
-		console.log('lol', data);
+		console.log({ data });
 		setAddedPhotos([...addedPhotos, ...data]);
 	};
 
