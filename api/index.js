@@ -215,8 +215,9 @@ app.post('/api/upload-link', async (req, res) => {
 
 app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
 	mongoose.connect(process.env.MONGO_URL);
-
+	console.log('1');
 	try {
+		console.log('2');
 		const uploader = async (path) =>
 			await cloudinary.uploads(path, 'boktel');
 		const urls = [];
@@ -231,6 +232,7 @@ app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
 		}
 		res.json(urls);
 	} catch (e) {
+		console.log('3');
 		console.log(e);
 		res.json(e);
 	}
