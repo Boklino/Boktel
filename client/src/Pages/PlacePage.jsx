@@ -23,8 +23,8 @@ export default function PlacePage() {
 	return (
 		<div className='relative '>
 			{!showAll && (
-				<div className=' overflow-x-hidden -mx-8 px-32'>
-					<div className='py-2 pt-4 px-7 mt-2 flex flex-col '>
+				<div className=' overflow-x-hidden  px-32'>
+					<div className=' pt-2 px-4 mt-2 flex flex-col '>
 						<Header />
 					</div>
 					<div className='mt-4 bg-gray-100 -mx-32 px-36 pt-8 '>
@@ -146,7 +146,9 @@ export default function PlacePage() {
 			{showAll && (
 				<div className='absolute -inset-14  bg-white '>
 					<div className='absolute left-44  p-8 grid grid-cols-1 items-center  gap-2'>
-						<h1 className='text-2xl'>Photos of {place.title}</h1>
+						<h1 className='text-2xl mt-12 mb-4'>
+							Photos of {place.title}
+						</h1>
 						<div>
 							<button
 								onClick={() => {
