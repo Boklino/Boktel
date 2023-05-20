@@ -116,7 +116,7 @@ app.post('/api/places', (req, res) => {
 	}
 });
 
-app.get('/api//profile', (req, res) => {
+app.get('/api/profile', (req, res) => {
 	mongoose.connect(process.env.MONGO_URL);
 	const { token } = req.cookies;
 	if (token) {
@@ -187,10 +187,12 @@ app.get('/api/places/:id', async (req, res) => {
 });
 
 app.get('/api/places', async (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	res.json(await Place.find());
 });
 
 app.post('/api/logout', (req, res) => {
+	mongoose.connect(process.env.MONGO_URL);
 	res.cookie('token', '').json(true);
 });
 
@@ -213,8 +215,10 @@ app.post('/api/upload-link', async (req, res) => {
 
 app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
 	mongoose.connect(process.env.MONGO_URL);
-	const uploader = async (path) => await cloudinary.uploads(path, 'boktel');
+
 	try {
+		const uploader = async (path) =>
+			await cloudinary.uploads(path, 'boktel');
 		const urls = [];
 		const files = req.files;
 		console.log({ files });
