@@ -228,6 +228,7 @@ app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
 		res.json(urls);
 	} catch (e) {
 		console.log(e);
+		res.json(e);
 	}
 });
 
