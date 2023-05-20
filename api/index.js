@@ -232,9 +232,7 @@ app.post('/api/upload', upload.array('photos', 50), async (req, res) => {
 		}
 		res.json(urls);
 	} catch (e) {
-		console.log('3');
-		console.log(e);
-		res.json(e);
+		res.status(404).json(e);
 	}
 });
 
