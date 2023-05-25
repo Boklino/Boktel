@@ -4,7 +4,7 @@ Boktel is a web application designed for booking hotels, inspired by popular pla
 
 [Live Preview](https://boktel.vercel.app/)
 
-![Boktel Preview](/preview.jpg)
+![Boktel Preview](https://github.com/Boklino/boktel/blob/main/preview.JPG)
 
 ## :star2: Features
 
