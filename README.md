@@ -2,7 +2,7 @@
 
 Boktel is a web application designed for booking hotels, inspired by popular platforms like Airbnb. It is built with modern technologies to provide a seamless user experience.
 
-[Live Preview]((https://boktel.vercel.app/))
+[Live Preview](https://boktel.vercel.app/)
 
 ![Boktel Preview](/preview.png)
 
